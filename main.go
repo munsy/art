@@ -25,7 +25,6 @@ func main() {
 	header := fmt.Sprintf("Basic %s", base)
 	reader := strings.NewReader(aql)
 	
-	//resp, err := http.Post(url, "text/html", reader)
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 	}
@@ -46,9 +45,6 @@ func main() {
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
-
-//	var v interface{}
-//	err = json.Unmarshal(resp.Body, &v)
 
 	out, err := ioutil.ReadAll(resp.Body)
 	if nil != err {
