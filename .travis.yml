@@ -11,7 +11,7 @@ notifications:
 install:
   - go get github.com/munsy/art
   - go get -v .
-  - go mod download
+  - go get -v golang.org/x/lint
 
 script:
   - diff <(gofmt -d .) <(echo -n)
