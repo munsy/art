@@ -30,7 +30,7 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "https://munsy.github.io/munsy.github.io/",
+              "baseHref": "https://munsy.github.io/art/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
