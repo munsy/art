@@ -1,18 +1,28 @@
 sudo: false
 
-language: go
+language: node_js
 
-go:
-  - 1.13.x
+node_js:
+  - "10"
 
 notifications:
   email: false
 
+cache:
+  directories:
+     - ./node_modules
+
 install:
-  - go get github.com/munsy/art
-  - go get -v .
-  - go mod download
+  - npm install
 
 script:
-  - go vet -x ./...
-  - go test -v -race ./...
+  - npm run-script build
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  keep_history: true
+  github_token: $GITHUB_TOKEN
+  local_dir: site/dist
+  on:
+    branch: master
