@@ -30,6 +30,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "https://munsy.github.io/munsy.github.io/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -45,7 +46,6 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "baseHref": "https://munsy.github.io/art/",
               "budgets": [
                 {
                   "type": "initial",
