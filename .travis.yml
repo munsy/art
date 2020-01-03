@@ -12,8 +12,7 @@ install:
   - go get github.com/munsy/art
   - go get -v .
   - go mod download
-  
+
 script:
-  - diff <(gofmt -d .) <(echo -n)
   - go vet -x ./...
   - go test -v -race ./...
