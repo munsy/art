@@ -18,24 +18,31 @@ type ArtClient struct {
 	basicAuth string
 }
 
-func NewClient(username, password string) *ArtClient {
+func NewClient(username, password string) (*ArtClient, error) {
+	if len(username) == 0 {
+		return nil, errors.New("no username supplied")
+	}
+	if len(password) == 0 {
+		return nil, errors.New("no password supplied")
+	}
+
 	c := &http.Client{
 		Timeout: 5 * time.Second,
 	}
 
-	auth := fmt.Sprintf("%s:%s", os.Args[3], os.Args[4])
+	auth := fmt.Sprintf("%s:%s", username, password)
 	base := base64.StdEncoding.EncodeToString([]byte(auth))
 	header := fmt.Sprintf("Basic %s", base)
 
 	return &ArtClient{
 		client: c,
 		basicAuth: header,
-	}
+	}, nil
 }
 
-func (a *ArtClient) GetArtifactList() (*ArtifactList, error){
+func (a *ArtClient) GetArtifactList(repo string) (*ArtifactList, error){
 	url := fmt.Sprintf("http://%s/artifactory/api/search/aql", os.Args[1])
-	aql := fmt.Sprintf(`items.find({"repo":{"$eq":"%s"}}).include("stat")`, os.Args[2])
+	aql := fmt.Sprintf(`items.find({"repo":{"$eq":"%s"}}).include("stat")`, repo)
 	reader := strings.NewReader(aql)
 	
 	post, err := http.NewRequest("POST", url, reader)

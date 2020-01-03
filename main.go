@@ -7,16 +7,25 @@ import (
 	"sort"
 )
 
+const (
+	major = 1
+	minor = 0
+	patch = 0
+)
+
 func main() {
+	log.Printf("Art v%d.%d.%d\n", major, minor, patch)
 	if len(os.Args) < 5 {
 		log.Fatal("usage: art [ip address] [repo] [username] [password]")
 	}
-	log.Println("Art v0.0.1")
-	log.Println(os.Args)
 
-	client := NewClient(os.Args[3], os.Args[4])
+	client, err := NewClient(os.Args[3], os.Args[4])
 	
-	artifacts, err := client.GetArtifactList()
+	if nil != err {
+		log.Fatal(err)
+	}
+
+	artifacts, err := client.GetArtifactList(os.Args[2])
 
 	if nil != err {
 		log.Fatal(err)
