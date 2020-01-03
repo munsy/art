@@ -1,10 +1,8 @@
 package main
 
 import (
-	//"net/http"
 	"fmt"
 	"testing"
-	//"time"
 )
 
 func TestNewClientNoUsername(t *testing.T) {
