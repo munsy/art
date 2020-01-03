@@ -1,0 +1,8 @@
+version: 1
+type: go
+resolver:
+  repo: go
+  serverId: "1039"
+deployer:
+  repo: go
+  serverId: "1039"
