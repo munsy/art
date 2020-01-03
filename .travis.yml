@@ -23,6 +23,6 @@ deploy:
   skip_cleanup: true
   keep_history: true
   token: $GITHUB_TOKEN
-  local_dir: site/dist
+  local_dir: dist/site
   on:
     branch: master
