@@ -7,6 +7,23 @@ notifications:
 
 jobs:
   include:
+    - language: node_js
+      node_js: "10"
+      cache:
+        directories:
+          - ./node_modules
+      install:
+        - npm install
+      script:
+        - npm run-script build
+      deploy:
+        - provider: pages
+          cleanup: false
+          keep_history: true
+          token: $GITHUB_TOKEN
+          local_dir: dist/site
+          on:
+            branch: master
     - language: go
       go: "1.13.x"
       install:
@@ -40,20 +57,3 @@ jobs:
           application: 'art'
           deployment_group: 'art'
           on: *2
-    - language: node_js
-      node_js: "10"
-      cache:
-        directories:
-          - ./node_modules
-      install:
-        - npm install
-      script:
-        - npm run-script build
-      deploy:
-        - provider: pages
-          cleanup: false
-          keep_history: true
-          token: $GITHUB_TOKEN
-          local_dir: dist/site
-          on:
-            branch: master
