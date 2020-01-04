@@ -44,6 +44,7 @@ jobs:
           secret_access_key: $AWS_SECRET
           local_dir: travis_deploy
           skip_cleanup: true
+          region: "us-west-2"
           on:
             branch: master
         - provider: codedeploy
@@ -53,6 +54,6 @@ jobs:
           application: "art"
           deployment_group: "art"
           bucket: "art-production"
-          region: "us-west-1"
+          region: "us-west-2"
           on:
             branch: master
