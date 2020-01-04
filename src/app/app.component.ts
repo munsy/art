@@ -27,6 +27,7 @@ export class AppComponent {
   	request.password = form.value.password;
 
   	this.service.getList(request).subscribe(response => {
+  		this.results = true;
   		console.log(response);
   	});
   }
