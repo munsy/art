@@ -20,17 +20,17 @@ script:
 
 deploy:
   - provider: pages
-  skip_cleanup: true
-  keep_history: true
-  token: $GITHUB_TOKEN
-  local_dir: dist/site
-  on:
-    branch: master
+    skip_cleanup: true
+    keep_history: true
+    token: $GITHUB_TOKEN
+    local_dir: dist/site
+    on:
+      branch: master
   - provider: s3
-  access_key_id: $AWS_KEY
-  secret_access_key: $AWS_SECRET
-  bucket: 'art-production'
-  skip_cleanup: true
-  local_dir: public
-  on:
-    branch: master
+    access_key_id: $AWS_KEY
+    secret_access_key: $AWS_SECRET
+    bucket: 'art-production'
+    skip_cleanup: true
+    local_dir: public
+    on:
+      branch: master
