@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: ./
+    destination: /home/ubuntu/art
+hooks:
+  ApplicationStart:
+    - location: /home/ubuntu/art/startup.sh
+      timeout: 300
+      runas: root
