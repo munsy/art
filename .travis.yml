@@ -39,7 +39,6 @@ jobs:
         - mv startup.sh travis_deploy/
       deploy:
         - provider: s3
-          region: us-west-1
           bucket: 'art-production'
           access_key_id: $AWS_KEY
           secret_access_key: $AWS_SECRET
@@ -48,7 +47,6 @@ jobs:
           on: &2
             branch: master
         - provider: codedeploy
-          region: us-west-1
           bucket: 'art-production'
           access_key_id: $AWS_KEY
           secret_access_key: $AWS_SECRET
