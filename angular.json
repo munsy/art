@@ -36,7 +36,7 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "https://munsy.github.io/art/",
+              "baseHref": "http://jfrog.munsy.io/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
