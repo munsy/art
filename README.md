@@ -12,4 +12,5 @@ $ art [ipaddr] [repo] [username] [password]
 ```
 
 ### Web demo
-Available at http://jfrog.munsy.io for quick demonstration.
+Available at https://munsy.github.io/art/ for quick demonstration.
+You will need a valid Artifactory instance.

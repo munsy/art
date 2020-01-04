@@ -1,35 +1,48 @@
-<div class="container-fluid overflow-hidden">
+<div class="container-fluid">
   <div class="row pt-5">
     <div class="col"></div>
     <div class="col">
-    	<h3 class="text-center">JFrog Demo</h3>
+      <img src="assets/jfrog-logo.png" class="d-inline mx-5 jfrog-logo">
+    	<h2 class="text-center d-inline ml-5">JFrog Repo Stats</h2>
       <form #request="ngForm" (ngSubmit)="getResults(request)" class="pt-3">
-        <div class="form-group">
-          <label for="url">URL</label>
-          <input type="text" class="form-control" id="url" placeholder="e.g., jfrog.org or 31.33.99.104" name="url" #url="ngModel" ngModel required>
+        <div class="form-group row pb-0">
+          <div class="col-sm-5">
+            <label for="repo" class="form-label-sm">Repository</label>
+            <input type="text" class="form-control form-control-sm" id="repo" placeholder="Repository name" name="repo" #repo="ngModel" ngModel required>
+          </div>
+          <div class="col">
+            <label for="url" class="form-label-sm">URL</label>
+            <input type="text" class="form-control form-control-sm" id="url" placeholder="e.g., jfrog.org or 31.33.99.104" name="url" #url="ngModel" ngModel required>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="repo">Repository</label>
-          <input type="text" class="form-control" id="repo" placeholder="Repository name" name="repo" #repo="ngModel" ngModel required>
-        </div>
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" class="form-control" id="username" placeholder="Used for basic authentication" name="username" #username="ngModel" ngModel required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Cannot be blank" name="password" #password="ngModel" ngModel required>
+        <div class="form-group border px-1 py-1">
+          <div class="row pt-2">
+            <div class="col-sm-1"></div>
+            <label for="username" class="col-sm-3 col-form-label-sm">Username</label>
+            <div class="col">
+              <input type="text" class="form-control form-control-sm" id="username" placeholder="Used for basic authentication" name="username" #username="ngModel" ngModel required>
+            </div>
+            <div class="col-sm-1"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-1"></div>
+            <label for="password" class="col-sm-3 col-form-label-sm">Password</label>
+            <div class="col">
+              <input type="password" class="form-control form-control-sm" id="password" placeholder="Cannot be blank" name="password" #password="ngModel" ngModel required>
+            </div>
+            <div class="col-sm-1"></div>
+          </div>
         </div>
         <button type="submit" class="btn btn-outline-primary">Submit</button>
       </form>
     </div>
     <div class="col"></div>
   </div>
-  <div class="row pt-3" *ngIf="results">
+  <div class="row pt-3 h-100" *ngIf="results">
     <div class="col-md-3"></div>
     <div class="col text-center">
       <h3>Results</h3>
-      <table class="table">
+      <table class="table mb-2">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -45,7 +58,11 @@
           </tr>
         </tbody>
       </table>
+      <button type="submit" class="btn btn-outline-primary">Submit</button>
     </div>
     <div class="col-md-3"></div>
   </div>
 </div>
+<footer class="text-center fixed-bottom">
+  <a href="https://github.com/munsy/art">Just give me the CLI version!</a>
+</footer>
