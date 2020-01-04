@@ -3,7 +3,7 @@
     <div class="col"></div>
     <div class="col">
       <img src="assets/jfrog-logo.png" class="d-inline mx-5 jfrog-logo">
-    	<h2 class="text-center d-inline ml-5">JFrog Repo Stats</h2>
+    	<h2 class="text-center d-inline">Artifactory Stat Grabber</h2>
       <form #request="ngForm" (ngSubmit)="getResults(request)" class="pt-3">
         <div class="form-group row pb-0">
           <div class="col-sm-5">
@@ -29,6 +29,13 @@
             <label for="password" class="col-sm-3 col-form-label-sm">Password</label>
             <div class="col">
               <input type="password" class="form-control form-control-sm" id="password" placeholder="Cannot be blank" name="password" #password="ngModel" ngModel required>
+            </div>
+            <div class="col-sm-1"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col text-right no-artifactory">
+              <a href="https://jfrog.com/enterprise-plus-platform/free-trial/" target="_blank" >I don't have an account</a>
             </div>
             <div class="col-sm-1"></div>
           </div>

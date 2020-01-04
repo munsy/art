@@ -8,7 +8,7 @@ A quick, simple tool to grab certain data from an artifactory instance.
 ```bash
 $ go get github.com/munsy/art
 $ go build
-$ art [ipaddr] [repo] [username] [password]
+$ art help # for a list of commands
 ```
 
 ### Web demo

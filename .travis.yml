@@ -1,35 +1,56 @@
 sudo: false
 
-language: node_js
-
-node_js:
-  - "10"
-
 notifications:
   email: false
 
-cache:
-  directories:
-     - ./node_modules
-
-install:
-  - npm install
-
-script:
-  - npm run-script build
-
-deploy:
-  - provider: pages
-    skip_cleanup: true
-    keep_history: true
-    token: $GITHUB_TOKEN
-    local_dir: dist/site
-    on:
-      branch: master
-  - provider: s3
-    access_key_id: $AWS_KEY
-    secret_access_key: $AWS_SECRET
-    bucket: 'art-production'
-    skip_cleanup: true
-    on:
-      branch: master
+matrix:
+  include:
+    - language: node_js
+      node_js: "10"
+      cache:
+        directories:
+          - ./node_modules
+      install:
+        - npm install
+      script:
+        - npm run-script build
+      deploy:
+        - provider: pages
+          skip_cleanup: true
+          keep_history: true
+          token: $GITHUB_TOKEN
+          local_dir: dist/site
+          on:
+            branch: master
+    - language: go
+      go: "1.13.x"
+      install:
+        - go get github.com/munsy/art
+        - go get -v .
+        - go mod download
+      script:
+        - go vet -x ./...
+        - go test -v -race ./... 
+        - go build
+        - mkdir -p travis_deploy
+        - mv art travis_deploy/
+      deploy:
+        - provider: s3
+          access_key_id: $AWS_KEY
+          secret_access_key: $AWS_SECRET
+          local_dir: travis_deploy
+          skip_cleanup: true
+          on: &2
+            branch: master
+          bucket: 'art-production'
+          region: 'us-west-1'
+        - provider: codedeploy
+          access_key_id: $AWS_KEY
+          secret_access_key: $AWS_SECRET
+          bucket: 'art-production'
+          key: latest.zip
+          bundle_type: zip
+          application: 'art'
+          deployment_group: 'art'
+          region: 'us-west-1'
+          on: *2

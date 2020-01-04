@@ -8,7 +8,6 @@ import(
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 )
@@ -16,32 +15,37 @@ import(
 type ArtClient struct {
 	client *http.Client
 	basicAuth string
+	URL string
 }
 
-func NewClient(username, password string) (*ArtClient, error) {
-	if len(username) == 0 {
-		return nil, errors.New("no username supplied")
-	}
-	if len(password) == 0 {
-		return nil, errors.New("no password supplied")
-	}
-
+func NewClient(url string) *ArtClient {
 	c := &http.Client{
 		Timeout: 5 * time.Second,
 	}
 
+	return &ArtClient{
+		client: c,
+		basicAuth: "",
+		URL: url,
+	}
+}
+
+func (a *ArtClient) SetAuth(username, password string) error {
+	if len(username) == 0 {
+		return errors.New("no username supplied")
+	}
+	if len(password) == 0 {
+		return errors.New("no password supplied")
+	}
 	auth := fmt.Sprintf("%s:%s", username, password)
 	base := base64.StdEncoding.EncodeToString([]byte(auth))
 	header := fmt.Sprintf("Basic %s", base)
-
-	return &ArtClient{
-		client: c,
-		basicAuth: header,
-	}, nil
+	a.basicAuth = header
+	return nil
 }
 
 func (a *ArtClient) GetArtifactList(repo string) (*ArtifactList, error){
-	url := fmt.Sprintf("http://%s/artifactory/api/search/aql", os.Args[1])
+	url := fmt.Sprintf("http://%s/artifactory/api/search/aql", a.URL)
 	aql := fmt.Sprintf(`items.find({"repo":{"$eq":"%s"}}).include("stat")`, repo)
 	reader := strings.NewReader(aql)
 	
