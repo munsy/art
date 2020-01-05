@@ -37,7 +37,7 @@ jobs:
         - go build
         - mkdir -p dist
         - zip -r art.zip client/ *.go go.*
-        - mv art.zip dist/
+        # - mv art.zip dist/
       deploy:
         - provider: elasticbeanstalk
           edge: true
