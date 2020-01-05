@@ -21,6 +21,8 @@ jobs:
           skip_cleanup: true
           token: $GITHUB_TOKEN
           local_dir: dist/site
+          on:
+            branch: master
     - language: go
       go: "1.13.x"
       install:
@@ -33,6 +35,7 @@ jobs:
         - go build
         - mkdir -p dist
         - zip -r art.zip client/ *.go go.* art
+        - cp art.zip dist/art.zip
       deploy:
         - provider: s3
           secret_access_key: $AWS_SECRET
