@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"sort"
-	"net/http"
 
 	"github.com/urfave/cli/v2"
+
+	"github.com/munsy/art/client"
 )
 
 const (
@@ -33,13 +35,13 @@ func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
         username := r.FormValue("username")
         password := r.FormValue("password")
         
-        client := NewClient(url)
-        if err := client.SetAuth(username, password); nil != err {
+        c := client.NewClient(url)
+        if err := c.SetAuth(username, password); nil != err {
         	http.Error(w, err.Error(), http.StatusInternalServerError)
             return
         }
 
-        artifacts, err := client.GetArtifactList(repo)
+        artifacts, err := c.GetArtifactList(repo)
 		if nil != err {
 			log.Fatal(err)
 		}
@@ -56,7 +58,6 @@ func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		break
 	}
 }
-// [ip address] [repo] [username] [password]
 
 func main() {
 	app := &cli.App{
@@ -76,9 +77,9 @@ func main() {
 				Flags: 	 []cli.Flag{
 		    		&cli.IntFlag{
 		    			Name:    "port",
-		    			Value:   8080,
+		    			Value:   5000,
 		    			Aliases: []string{"p"},
-		    			Usage:   "REST API port number (default 8080)",
+		    			Usage:   "REST API port number",
 		    		},
 		    	},
 			  	Action:  func(c *cli.Context) error {
@@ -138,14 +139,14 @@ func serve(c *cli.Context) error {
 
 func lookup(c *cli.Context) error {
 	log.Printf("Querying repository %s on host %s\n", c.String("repo"), c.String("host"))
-	client := NewClient(c.String("host"))
-	err := client.SetAuth(c.String("username"), c.String("password"))
+	look := client.NewClient(c.String("host"))
+	err := look.SetAuth(c.String("username"), c.String("password"))
 	
 	if nil != err {
 		return err
 	}
 
-	artifacts, err := client.GetArtifactList(c.String("repo"))
+	artifacts, err := look.GetArtifactList(c.String("repo"))
 
 	if nil != err {
 		return err
