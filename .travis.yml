@@ -44,7 +44,7 @@ jobs:
           bucket: "art-production"
           access_key_id: $AWS_KEY
           secret_access_key: $AWS_SECRET
-          local_dir: art.zip
+          local_dir: travis_deploy
           skip_cleanup: true
           region: "us-west-2"
           on:

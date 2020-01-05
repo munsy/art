@@ -19,7 +19,7 @@ export class ArtifactoryService {
   constructor(private http: HttpClient) { }
 
   getList(request: ArtifactoryRequest): Observable<ArtifactList> {
-    var endpoint = `https://api.munsy.io/artifactory/api/search/aql`;
+    var endpoint = `https://go.munsy.io/api/v1/artifactory`;
     httpOptions.headers = httpOptions.headers.set('Authorization', btoa(`${request.username}:${request.password}`));
     var query = `items.find({"repo":{"$eq":"${request.repo}"}}).include("stat")`;
     return this.http.post<ArtifactList>(endpoint, query, httpOptions).pipe(timeout(5000));
