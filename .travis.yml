@@ -7,23 +7,8 @@ notifications:
 
 jobs:
   include:
-    - language: node_js
-      node_js: "10"
-      cache:
-        directories:
-          - ./node_modules
-      install:
-        - npm install
-      script:
-        - npm run-script build
-      deploy:
-        - provider: pages
-          skip_cleanup: true
-          token: $GITHUB_TOKEN
-          local_dir: dist/site
-          on:
-            branch: master
-    - language: go
+    - stage: "backend"
+      language: go
       go: "1.13.x"
       install:
         - go get github.com/munsy/art
@@ -46,7 +31,6 @@ jobs:
           skip_cleanup: true
           on:
             branch: master
-      deploy:
         - provider: elasticbeanstalk
           secret_access_key: $AWS_SECRET
           access_key_id: $AWS_KEY
@@ -56,5 +40,22 @@ jobs:
           env: "art-api"
           zip_file: art.zip
           skip_cleanup: true
+          on:
+            branch: master
+    - stage: "frontend"
+      language: node_js
+      node_js: "10"
+      cache:
+        directories:
+          - ./node_modules
+      install:
+        - npm install
+      script:
+        - npm run-script build
+      deploy:
+        - provider: pages
+          skip_cleanup: true
+          token: $GITHUB_TOKEN
+          local_dir: dist/site
           on:
             branch: master
