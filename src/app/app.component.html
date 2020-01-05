@@ -1,10 +1,16 @@
 <div class="container-fluid">
-  <div class="row pt-5">
+  <div class="row py-5">
     <div class="col"></div>
     <div class="col">
       <img src="assets/jfrog-logo.png" class="d-inline mx-5 jfrog-logo">
     	<h2 class="text-center d-inline">Artifactory Stat Grabber</h2>
-      <form #request="ngForm" (ngSubmit)="getResults(request)" class="pt-5">
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="row" *ngIf="!error && !results">
+    <div class="col"></div>
+    <div class="col">
+      <form #request="ngForm" (ngSubmit)="getResults(request)">
         <div class="form-group row pb-0">
           <div class="col-sm-5">
             <label for="repo" class="form-label-sm">Repository</label>
@@ -40,15 +46,20 @@
             <div class="col-sm-1"></div>
           </div>
         </div>
-        <button type="submit" class="btn btn-outline-primary">Submit</button>
+        <button type="submit" class="btn btn-outline-primary" *ngIf="!searching">Submit</button>
+        <div class="spinner-border text-secondary" role="status" *ngIf="searching">
+          <span class="sr-only"></span>
+        </div>
       </form>
     </div>
     <div class="col"></div>
   </div>
-  <div class="row pt-3 h-100" *ngIf="!searching && !error && results">
+  <div class="row pt-3 h-100" *ngIf="!searching && error && !results">
     <div class="col-md-3"></div>
     <div class="col text-center">
-      
+      <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+      <h3>Something went wrong.</h3>
+      <h6>Please check back later or <a (click)="reset()" routerLink=".">try again</a>.</h6>
     </div>
     <div class="col-md-3"></div>
   </div>

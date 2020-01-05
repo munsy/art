@@ -19,6 +19,12 @@ export class AppComponent {
 
   constructor(private service: ArtifactoryService) { }
 
+  reset() {
+    this.results = false;
+    this.searching = false;
+    this.error = false;
+  }
+
   getResults(form: NgForm) {
     this.searching = true;
     this.results = false;

@@ -39,7 +39,7 @@ jobs:
         - mkdir -p dist
         - mv art travis_deploy/
         - mv startup.sh travis_deploy/
-        - zip -r art.zip travis_deploy/
+        - zip -r art.zip travis_deploy/*
         - mv art.zip dist/
       deploy:
         - provider: s3
