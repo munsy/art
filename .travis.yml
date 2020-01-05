@@ -22,7 +22,7 @@ jobs:
           cleanup: false
           keep_history: true
           token: $GITHUB_TOKEN
-          local_dir: . #dist/site
+          local_dir: ./dist/site
           on:
             branch: master
     - language: go
@@ -36,8 +36,7 @@ jobs:
         - go test -v -race ./... 
         - go build
         - mkdir -p dist
-        - zip -r art.zip client/ *.go go.*
-        #- cp art.zip dist/art.zip
+        - zip -r art.zip client/ *.go go.* art
       deploy:
         - provider: s3
           secret_access_key: $AWS_SECRET
