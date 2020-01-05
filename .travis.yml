@@ -15,7 +15,8 @@ jobs:
       script:
         - npm run-script build
       deploy:
-        - provider: pages
+        - provider: pages:git
+          edge: true
           cleanup: false
           keep_history: true
           token: $GITHUB_TOKEN
