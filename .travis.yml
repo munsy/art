@@ -19,7 +19,7 @@ jobs:
         - npm run-script build
       deploy:
         - provider: pages
-          cleanup: false
+          cleanup: true
           keep_history: true
           token: $GITHUB_TOKEN
           local_dir: dist/site
@@ -37,7 +37,7 @@ jobs:
         - go build
         - mkdir -p dist
         - zip -r art.zip client/ *.go go.*
-        - cp art.zip dist/art.zip
+        #- cp art.zip dist/art.zip
       deploy:
         - provider: s3
           secret_access_key: $AWS_SECRET
@@ -45,7 +45,7 @@ jobs:
           region: "us-west-2"
           bucket: "art-production"
           local_dir: dist
-          skip_cleanup: true
+          cleanup: true
           edge: true
           on:
             branch: master

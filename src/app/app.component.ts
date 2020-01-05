@@ -39,6 +39,7 @@ export class AppComponent {
       this.results = true;
       this.searching = false;
       console.log(response);
+      console.log(response as ArtifactList);
   		console.log(this.files);
   	}, error => {
       this.error = true;
