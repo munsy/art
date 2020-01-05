@@ -36,15 +36,17 @@ jobs:
         - go test -v -race ./... 
         - go build
         - mkdir -p dist
-        - zip art.zip art startup.sh
+        - zip -r art.zip client/ *.go go.*
         - mv art.zip dist/
       deploy:
-        - provider: s3
-          bucket: "art-production"
-          access_key_id: $AWS_KEY
+        - provider: elasticbeanstalk
           secret_access_key: $AWS_SECRET
+          access_key_id: $AWS_KEY
+          region: "us-west-2"
+          bucket: "art-production"
+          app: "art-production"
+          env: "art-production"
           local_dir: dist
           skip_cleanup: true
-          region: "us-west-2"
           on:
             branch: master
