@@ -46,16 +46,16 @@ jobs:
           skip_cleanup: true
           on:
             branch: master
-        - provider: elasticbeanstalk
-          description: "travis-deployment"
-          secret_access_key: $AWS_SECRET
-          access_key_id: $AWS_KEY
-          region: "us-west-2"
-          app: "art-production"
-          env: "art-production"
-          bucket: "art-production"
-          zip_file: "art.zip"
-          skip_cleanup: true
-          wait_until_deployed: true
-          on:
-            branch: master
+#        - provider: elasticbeanstalk
+#          description: "travis-deployment"
+#          secret_access_key: $AWS_SECRET
+#          access_key_id: $AWS_KEY
+#          region: "us-west-2"
+#          app: "art-production"
+#          env: "art-production"
+#          bucket: "art-production"
+#          zip_file: "art.zip"
+#          skip_cleanup: true
+#          wait_until_deployed: true
+#          on:
+#            branch: master
