@@ -38,12 +38,13 @@ jobs:
         - mkdir -p travis_deploy
         - mv art travis_deploy/
         - mv startup.sh travis_deploy/
+        - zip -r travis_deploy art.zip
       deploy:
         - provider: s3
-          bucket: 'art-production'
+          bucket: "art-production"
           access_key_id: $AWS_KEY
           secret_access_key: $AWS_SECRET
-          local_dir: travis_deploy
+          local_dir: art.zip
           skip_cleanup: true
           region: "us-west-2"
           on:
