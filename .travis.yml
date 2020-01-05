@@ -1,6 +1,7 @@
 os: linux
 
-language: ruby
+language: node_js
+node_js: "10"
 
 notifications:
   email: false
@@ -44,16 +45,6 @@ jobs:
           secret_access_key: $AWS_SECRET
           local_dir: travis_deploy
           skip_cleanup: true
-          region: "us-west-2"
-          on:
-            branch: master
-        - provider: codedeploy
-          revision_type: github
-          access_key_id: $AWS_KEY
-          secret_access_key: $AWS_SECRET
-          application: "art"
-          deployment_group: "art"
-          bucket: "art-production"
           region: "us-west-2"
           on:
             branch: master
