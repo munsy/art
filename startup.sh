@@ -1,4 +1,4 @@
 #!/bin/bash
 pwd
 echo "starting art api server..."
-sudo nohup ./art serve &
+sudo nohup /var/app/current/art serve &

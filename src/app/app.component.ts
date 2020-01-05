@@ -14,12 +14,14 @@ import { ArtifactList, ArtifactoryRequest } from './artifactory.model';
 export class AppComponent {
   public files: ArtifactList;
   public results: boolean = false;
+  public searching: boolean = false;
+  public error: boolean = false;
 
   constructor(private service: ArtifactoryService) { }
 
   getResults(form: NgForm) {
-  	console.log(form.value);
-  	
+    this.searching = true;
+    this.results = false;
   	let request = new ArtifactoryRequest();
   	request.url = form.value.url;
   	request.repo = form.value.repo;
@@ -27,8 +29,15 @@ export class AppComponent {
   	request.password = form.value.password;
 
   	this.service.getList(request).subscribe(response => {
-  		this.results = true;
-  		console.log(response);
-  	});
+      this.files = response as ArtifactList;
+      this.results = true;
+      console.log(response);
+  		console.log(this.files);
+  	}, error => {
+      this.error = true;
+      this.results = false;
+      this.searching = false;
+      console.log(error);
+    });
   }
 }

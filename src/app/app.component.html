@@ -4,7 +4,7 @@
     <div class="col">
       <img src="assets/jfrog-logo.png" class="d-inline mx-5 jfrog-logo">
     	<h2 class="text-center d-inline">Artifactory Stat Grabber</h2>
-      <form #request="ngForm" (ngSubmit)="getResults(request)" class="pt-3">
+      <form #request="ngForm" (ngSubmit)="getResults(request)" class="pt-5">
         <div class="form-group row pb-0">
           <div class="col-sm-5">
             <label for="repo" class="form-label-sm">Repository</label>
@@ -45,7 +45,14 @@
     </div>
     <div class="col"></div>
   </div>
-  <div class="row pt-3 h-100" *ngIf="results">
+  <div class="row pt-3 h-100" *ngIf="!searching && !error && results">
+    <div class="col-md-3"></div>
+    <div class="col text-center">
+      
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+  <div class="row pt-3 h-100" *ngIf="!searching && !error && results">
     <div class="col-md-3"></div>
     <div class="col text-center">
       <h3>Results</h3>
