@@ -38,7 +38,7 @@ jobs:
         - mkdir -p travis_deploy
         - mv art travis_deploy/
         - mv startup.sh travis_deploy/
-        - zip -r travis_deploy art.zip
+        - zip -r art.zip travis_deploy/
       deploy:
         - provider: s3
           bucket: "art-production"
