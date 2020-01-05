@@ -17,12 +17,11 @@ jobs:
       script:
         - npm run-script build
       deploy:
-        - provider: pages:git
+        - provider: pages
           cleanup: false
           keep_history: true
           token: $GITHUB_TOKEN
           local_dir: dist/site
-          #edge: true
     - language: go
       go: "1.13.x"
       install:
