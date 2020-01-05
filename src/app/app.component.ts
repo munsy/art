@@ -37,6 +37,7 @@ export class AppComponent {
   	this.service.getList(request).subscribe(response => {
       this.files = response as ArtifactList;
       this.results = true;
+      this.searching = false;
       console.log(response);
   		console.log(this.files);
   	}, error => {
@@ -45,5 +46,9 @@ export class AppComponent {
       this.searching = false;
       console.log(error);
     });
+  }
+
+  sort() {
+    console.log("not implemented yet");
   }
 }
