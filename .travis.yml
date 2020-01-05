@@ -22,7 +22,7 @@ jobs:
           cleanup: true
           keep_history: false
           token: $GITHUB_TOKEN
-          local_dir: dist/site
+          local_dir: . #dist/site
           on:
             branch: master
     - language: go
