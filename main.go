@@ -65,7 +65,8 @@ func main() {
     	EnableBashCompletion: true,
     	Action: func(c *cli.Context) error {
     		log.Printf("%s v%d.%d.%d\n", program, major, minor, patch)
-    		return nil
+    		log.Printf("No arguments supplied.\n")
+    		return serve(c)
     	},
     	Commands: []*cli.Command{
 			{
