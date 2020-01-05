@@ -39,7 +39,7 @@ jobs:
         - zip -r art.zip client/ *.go go.*
         - mv art.zip dist/
       deploy:
-        - provider: s3
+        - provider: elasticbeanstalk
           edge: true
           secret_access_key: $AWS_SECRET
           access_key_id: $AWS_KEY
