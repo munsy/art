@@ -40,13 +40,14 @@ jobs:
         # - mv art.zip dist/
       deploy:
         - provider: elasticbeanstalk
-          edge: true
           secret_access_key: $AWS_SECRET
           access_key_id: $AWS_KEY
           region: "us-west-2"
+          app: "art-production"
           env: "art-production"
           bucket: "art-production"
           skip_cleanup: true
+          edge: true
           on:
             branch: master
           # local_dir: dist
