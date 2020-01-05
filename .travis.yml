@@ -22,9 +22,7 @@ jobs:
           cleanup: false
           keep_history: true
           token: $GITHUB_TOKEN
-          local_dir: ./dist/site
-          on:
-            branch: master
+          local_dir: dist/site
     - language: go
       go: "1.13.x"
       install:
