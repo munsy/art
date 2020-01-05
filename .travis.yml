@@ -40,11 +40,13 @@ jobs:
         - mv art.zip dist/
       deploy:
         - provider: s3
+          edge: true
           secret_access_key: $AWS_SECRET
           access_key_id: $AWS_KEY
           region: "us-west-2"
+          env: "art-production"
           bucket: "art-production"
-          local_dir: dist
           skip_cleanup: true
           on:
             branch: master
+          # local_dir: dist
