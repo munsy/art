@@ -5,6 +5,6 @@ files:
     destination: /home/ubuntu/art
 hooks:
   ApplicationStart:
-    - location: /home/ubuntu/art/startup.sh
+    - location: /home/ubuntu/art
       timeout: 300
       runas: root
