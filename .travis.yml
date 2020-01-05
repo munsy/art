@@ -43,8 +43,7 @@ jobs:
           region: "us-west-2"
           bucket: "art-production"
           local_dir: dist
-          cleanup: true
-          edge: true
+          skip_cleanup: true
           on:
             branch: master
         - provider: elasticbeanstalk
