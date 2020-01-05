@@ -18,6 +18,7 @@ jobs:
         - npm run-script build
       deploy:
         - provider: pages
+          skip_cleanup: true
           token: $GITHUB_TOKEN
           local_dir: dist/site
     - language: go
@@ -52,8 +53,7 @@ jobs:
           env: "art-production"
           bucket: "art-production"
           zip_file: "art.zip"
+          skip_cleanup: true
           wait_until_deployed: true
-          cleanup: true
-          edge: true
           on:
             branch: master
