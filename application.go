@@ -132,8 +132,12 @@ func main() {
 
 func serve(c *cli.Context) error {
 	http.Handle("/api/v1/artifactory", &quickapi{})
-	log.Printf("API server now listening on port %d (press Control^C to stop)", c.Int("port"))
-    log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", c.Int("port")), nil))
+	port := c.Int("port")
+	if port == 0 {
+		port = 5000
+	}
+	log.Printf("API server now listening on port %d (press Control^C to stop)", port)
+    log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
     return nil
 }
 
