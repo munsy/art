@@ -35,11 +35,8 @@ jobs:
         - go vet -x ./...
         - go test -v -race ./... 
         - go build
-        - mkdir -p travis_deploy
         - mkdir -p dist
-        - mv art travis_deploy/
-        - mv startup.sh travis_deploy/
-        - zip -r art.zip travis_deploy/*
+        - zip art.zip art startup.sh
         - mv art.zip dist/
       deploy:
         - provider: s3
