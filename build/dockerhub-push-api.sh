@@ -1,5 +1,5 @@
 #!/bin/bash
-cp ./api/Dockerfile ./Dockerfile
+cp ./build/api/Dockerfile ./Dockerfile
 docker build -t munsy/art:api .
 rm ./Dockerfile
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
