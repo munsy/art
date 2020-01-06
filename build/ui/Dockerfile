@@ -1,10 +1,10 @@
 FROM node:alpine AS builder
 WORKDIR /app
-COPY ./src/assets .
 COPY . .
 RUN npm install && npm run build
 COPY . .
 
 FROM nginx:alpine
-COPY --from=builder /app/dist/site/* /usr/share/nginx/html/art/
+COPY --from=builder /app/dist/site/ /usr/share/nginx/html/art/
+COPY --from=builder /app/dist/site/jfrog-logo.png /usr/share/nginx/html/art/assets/jfrog-logo.png
 EXPOSE 80
