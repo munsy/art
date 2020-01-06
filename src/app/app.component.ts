@@ -19,6 +19,10 @@ export class AppComponent {
 
   constructor(private service: ArtifactoryService) { }
 
+  quickdev() {
+    
+  }
+
   reset() {
     this.results = false;
     this.searching = false;
@@ -33,6 +37,8 @@ export class AppComponent {
   	request.repo = form.value.repo;
   	request.username = form.value.username;
   	request.password = form.value.password;
+
+    console.log(request);
 
   	this.service.getList(request).subscribe(response => {
       this.files = response as ArtifactList;

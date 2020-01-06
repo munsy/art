@@ -21,6 +21,12 @@ const (
 )
 
 type quickapi struct{}
+type Quickreq struct{
+	Repo 	 string `json:"repo"`
+	Url 	 string `json:"url"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
 
 func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
@@ -30,18 +36,23 @@ func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
             return
         }
 
-        repo := r.FormValue("repo")
-        url := r.FormValue("url")
-        username := r.FormValue("username")
-        password := r.FormValue("password")
-        
-        c := client.NewClient(url)
-        if err := c.SetAuth(username, password); nil != err {
+        var q Quickreq
+
+        err := json.NewDecoder(r.Body).Decode(&q)
+        if nil != err {
         	http.Error(w, err.Error(), http.StatusInternalServerError)
             return
         }
 
-        artifacts, err := c.GetArtifactList(repo)
+        log.Println(q)
+        
+        c := client.NewClient(q.Url)
+        if err := c.SetAuth(q.Username, q.Password); nil != err {
+        	http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+
+        artifacts, err := c.GetArtifactList(q.Repo)
 		if nil != err {
 			log.Fatal(err)
 		}
@@ -50,6 +61,9 @@ func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     	
     	w.WriteHeader(http.StatusOK)
     	w.Header().Set("Access-Control-Allow-Origin", "*")
+    	w.Header().Set("Access-Control-Allow-Credentials", "true")
+    	w.Header().Set("Access-Control-Allow-Methods", "POST")
+    	w.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Encoding, Authorization, Content-Length, Content-Type, X-CSRF-Token")
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(artifacts)
 		break
