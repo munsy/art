@@ -1,5 +1,6 @@
 FROM node:alpine AS builder
 WORKDIR /app
+COPY ./src/assets .
 COPY . .
 RUN npm install && npm run build
 COPY . .

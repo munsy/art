@@ -43,10 +43,10 @@ jobs:
           secret_access_key: $AWS_SECRET
           access_key_id: $AWS_KEY
           region: "us-west-2"
-          bucket: "art-production"
+#          bucket: "art-production"
           app: "art"
           env: "art-api"
-          zip_file: art.zip
+#          zip_file: art.zip
           skip_cleanup: true
           on:
             branch: master
