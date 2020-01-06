@@ -19,7 +19,7 @@ jobs:
         - go test -v -race ./... 
         - go build
         - mkdir -p dist
-        - zip -r art.zip client/ *.go go.* art
+        - zip -r art.zip client/ *.go go.* 
         - cp art.zip dist/art.zip
       deploy:
         - provider: s3
@@ -37,7 +37,7 @@ jobs:
           region: "us-west-2"
           bucket: "art-production"
           app: "art"
-          env: "prod"
+          env: "production"
           zip_file: art.zip
           skip_cleanup: true
           on:
