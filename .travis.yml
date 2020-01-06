@@ -20,7 +20,7 @@ jobs:
         - go build
         - mkdir -p dist
         - zip -r art.zip client/ *.go go.* art
-        - mv art.zip dist/art.zip
+        - cp art.zip dist/art.zip
       deploy:
         - provider: s3
           secret_access_key: $AWS_SECRET
@@ -37,8 +37,8 @@ jobs:
           region: "us-west-2"
           bucket: "art-production"
           app: "art"
-          env: "Art-env"
-          zip_file: dist/art.zip
+          env: "prod"
+          zip_file: art.zip
           skip_cleanup: true
           on:
             branch: master
