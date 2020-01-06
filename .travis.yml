@@ -38,7 +38,7 @@ jobs:
           bucket: "art-production"
           app: "api"
           env: "art-prod"
-          zip_file: art.zip
+          zip_file: dist/art.zip
           skip_cleanup: true
           on:
             branch: master
