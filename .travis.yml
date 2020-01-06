@@ -36,8 +36,8 @@ jobs:
           access_key_id: $AWS_KEY
           region: "us-west-2"
           bucket: "art-production"
-          app: "api"
-          env: "art-prod"
+          app: "art"
+          env: "prod"
           zip_file: dist/art.zip
           skip_cleanup: true
           on:
