@@ -6,5 +6,5 @@ COPY . .
 
 FROM nginx:alpine
 COPY --from=builder /app/dist/site/ /usr/share/nginx/html/art/
-COPY --from=builder /app/dist/site/jfrog-logo.png /usr/share/nginx/html/art/assets/jfrog-logo.png
+COPY --from=builder /app/dist/site/assets/jfrog-logo.png /usr/share/nginx/html/art/assets/jfrog-logo.png
 EXPOSE 80
