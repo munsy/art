@@ -26,10 +26,6 @@ jobs:
         - cp art.zip dist/art.zip
       deploy:
         - provider: script
-          before_install:
-            - cp ./ui/Dockerfile ./Dockerfile
-            - docker build -t munsy/art:ui .
-            - rm ./Dockerfile
           script: bash build/dockerhub-push-ui.sh
           skip_cleanup: true
           on:
@@ -67,9 +63,6 @@ jobs:
       deploy:
         - provider: script
           before_install:
-            - cp ./ui/Dockerfile ./Dockerfile
-            - docker build -t munsy/art:ui .
-            - rm ./Dockerfile
           script: bash build/dockerhub-push-ui.sh
           skip_cleanup: true
           on:
