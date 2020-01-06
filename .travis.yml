@@ -37,7 +37,7 @@ jobs:
           region: "us-west-2"
           bucket: "art-production"
           app: "art"
-          env: "prod"
+          env: "Art-env"
           zip_file: dist/art.zip
           skip_cleanup: true
           on:
