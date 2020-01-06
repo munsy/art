@@ -172,8 +172,40 @@ func lookup(c *cli.Context) error {
 
 	sort.Stable(artifacts)
 
+	first := 0
+	second := 0
+
 	for i := 0; i < len(artifacts.Results); i++ {
-		fmt.Printf("%d\t%s\n", artifacts.Results[i].TotalDownloads(), artifacts.Results[i].Name)
+		if artifacts.Results[i].TotalDownloads() > first {
+			second = first
+			first = artifacts.Results[i].TotalDownloads()
+		}
 	}
+
+	var pop1 = make([]client.ArtifactResult, 0)
+	var pop2 = make([]client.ArtifactResult, 0)
+
+	if len(artifacts.Results) > 2 && first != second {
+		fmt.Printf("There were multiple files with the same download count. Displaying files by first and second highest download counts:\n")
+	}
+
+	for i := 0; i < len(artifacts.Results); i++ {
+		if artifacts.Results[i].TotalDownloads() == first {
+			pop1 = append(pop1, artifacts.Results[i])
+		}
+		
+		if artifacts.Results[i].TotalDownloads() == second {
+			pop2 = append(pop1, artifacts.Results[i])
+		}
+	}
+
+	for i := 0; i < len(pop1); i++ { 
+		line := fmt.Sprintf("%d - %s", pop1[i].TotalDownloads(), pop1[i].Name)
+		if i < len(pop2) {
+			line = fmt.Sprintf("%-50s%d - %s", line, pop2[i].TotalDownloads(), pop2[i].Name)
+		}
+		fmt.Println(line)
+	}
+
 	return nil
 }

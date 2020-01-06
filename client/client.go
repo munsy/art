@@ -72,7 +72,6 @@ func (a *ArtClient) GetArtifactList(repo string) (*ArtifactList, error){
 	}
 
 	log.Println("Received valid response. Decoding list...")
-	log.Println(string(out))
 
 	artifacts := &ArtifactList{}
 
