@@ -1,6 +1,6 @@
 Art 
 --- 
-[![Build Status](https://travis-ci.org/munsy/art.svg?branch=master)](https://travis-ci.org/munsy/art)
+[![Build Status](https://travis-ci.org/munsy/art.svg?branch=master)](https://travis-ci.org/munsy/art) ![Docker Pulls](https://img.shields.io/docker/pulls/munsy/art)
 
 A quick, simple tool to grab certain data from an artifactory instance.
 
