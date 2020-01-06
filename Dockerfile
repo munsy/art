@@ -11,7 +11,6 @@ RUN adduser -S -D -H -h /app art
 
 USER art
 
-EXPOSE 80
 EXPOSE 8080
 
-CMD ["./art", "serve", "-p", "80"]
+CMD ["./art", "serve", "-p", "8080"]
