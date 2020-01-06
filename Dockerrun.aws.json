@@ -1,9 +1,29 @@
 {
-  "Ports": [
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
     {
-      "ContainerPort": 5000,
-      "HostPort": 8080
+      "name": "art-web",
+      "image": "art:ui",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ]
+    },
+    {
+      "name": "art-api",
+      "image": "art:api",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 443,
+          "containerPort": 5000
+        }
+      ]
     }
   ]
 }
- 
