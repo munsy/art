@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "art-web",
-      "image": "munsy/art:ui",
+      "image": "munsy/art-ui",
       "essential": true,
       "memory": 128,
       "portMappings": [
@@ -15,7 +15,7 @@
     },
     {
       "name": "art-api",
-      "image": "munsy/art:api",
+      "image": "munsy/art-api",
       "essential": true,
       "memory": 128,
       "portMappings": [
