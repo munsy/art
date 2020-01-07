@@ -67,11 +67,12 @@
     <div class="col-md-3"></div>
     <div class="col text-center">
       <h3>Results</h3>
-      <button type="button" class="btn btn-sm btn-outline-primary" (click)="reset()">Restart</button>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="interview" value="true">
-        <label class="form-check-label" for="interview">Display most and second most popular files only</label>
+        <input class="form-check-input" type="checkbox" id="interview" value="true" name="filter" [(ngModel)]="filter">
+        <label class="form-check-label" for="interview">Display most and second most downloaded files only</label>
       </div>
+      <button type="button" class="btn btn-sm btn-outline-primary float-right" (click)="reset()">Restart</button>
+      <br><br>
       <table class="table mb-2">
         <thead>
           <tr>
@@ -80,19 +81,25 @@
             <th scope="col">Total Downloads</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="!filter">
           <tr *ngFor="let file of files; index as i">
             <th scope="row">{{ i }}</th>
             <td>{{ file.name }}</td>
-            <td>{{ file.downloadCount }}</td>
+            <td>{{ downloadCount(file) }}</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="filter">
+          <tr *ngFor="let file of mostDownloaded(); index as i">
+            <th scope="row">{{ i }}</th>
+            <td>{{ file.name }}</td>
+            <td>{{ downloadCount(file) }}</td>
           </tr>
         </tbody>
       </table>
-      <button type="submit" class="btn btn-outline-primary">Submit</button>
     </div>
     <div class="col-md-3"></div>
   </div>
 </div>
-<footer class="text-center fixed-bottom">
+<footer class="text-center bg-white fixed-bottom">
   <a href="https://github.com/munsy/art">Just give me the CLI version!</a>
 </footer>

@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ArtifactoryService } from './artifactory.service';
-import { ArtifactList, ArtifactoryRequest } from './artifactory.model';
+import { ArtifactList, ArtifactResult, ArtifactoryRequest } from './artifactory.model';
 
 @Component({
   selector: 'app-root',
@@ -12,15 +12,50 @@ import { ArtifactList, ArtifactoryRequest } from './artifactory.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public files: ArtifactList;
+  public files: Array<ArtifactResult>;
   public results: boolean = false;
   public searching: boolean = false;
   public error: boolean = false;
+  public filter: boolean = false;
 
   constructor(private service: ArtifactoryService) { }
 
-  quickdev() {
+  toggle(e: any) {
+    this.filter = !this.filter;
+  }
+
+  downloadCount(result: ArtifactResult): number {
+    let count = 0;
+    for(var i = 0; i < result.stats.length; i++) {
+        count += result.stats[i].downloads;
+    }
+    return count;
+  }
+
+  mostDownloaded(): Array<ArtifactResult> {
+    let first = 0;
+    let second = 0;
+
+    for(var i = 0; i < this.files.length; i++) {
+      if(this.downloadCount(this.files[i]) > first) {
+        second = first;
+        first = this.downloadCount(this.files[i]);
+      }
+    }
+
+    let list = new Array<ArtifactResult>();
+    for(var i = 0; i < this.files.length; i++) {
+      if(this.downloadCount(this.files[i]) == first) {
+        list.push(this.files[i]);
+      }
+    }
+    for(var i = 0; i < this.files.length; i++) {
+      if(this.downloadCount(this.files[i]) == second) {
+        list.push(this.files[i]);
+      }
+    }
     
+    return list;
   }
 
   reset() {
@@ -41,17 +76,15 @@ export class AppComponent {
     console.log(request);
 
   	this.service.getList(request).subscribe(response => {
-      this.files = response as ArtifactList;
+      let list = response as ArtifactList;
+      this.files = list.results;
+      console.log(this.files);
       this.results = true;
       this.searching = false;
-      console.log(response);
-      console.log(response as ArtifactList);
-  		console.log(this.files);
   	}, error => {
       this.error = true;
       this.results = false;
       this.searching = false;
-      console.log(error);
     });
   }
 
