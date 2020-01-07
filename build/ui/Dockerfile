@@ -1,7 +1,7 @@
 FROM node:alpine AS builder
 WORKDIR /app
 COPY . .
-RUN npm install && npm run build
+RUN npm install && npm run docker
 COPY . .
 
 FROM nginx:alpine

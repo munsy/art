@@ -29,6 +29,14 @@ type Quickreq struct{
 }
 
 func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Methods", "*")
+    w.Header().Set("Access-Control-Allow-Credentials", "true")
+    w.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Encoding, Authorization, Content-Length, Content-Type, X-CSRF-Token")
+	w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+	log.Println(w)
+
 	switch r.Method {
 	case http.MethodPost:
 		if err := r.ParseForm(); nil != err {
@@ -58,13 +66,7 @@ func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 
 		sort.Stable(artifacts)
-    	
-    	w.WriteHeader(http.StatusOK)
-    	w.Header().Set("Access-Control-Allow-Origin", "*")
-    	w.Header().Set("Access-Control-Allow-Credentials", "true")
-    	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
-    	w.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Encoding, Authorization, Content-Length, Content-Type, X-CSRF-Token")
-		w.Header().Set("Content-Type", "application/json")
+
 		json.NewEncoder(w).Encode(artifacts)
 		break
 	default:
