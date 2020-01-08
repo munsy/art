@@ -1,6 +1,6 @@
 FROM node:alpine AS builder
 WORKDIR /app
-COPY . .
+COPY ../../ .
 RUN npm install && npm run docker
 COPY . .
 

@@ -6,7 +6,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"sort"
+	"strings"
 
 	"github.com/urfave/cli/v2"
 
@@ -19,61 +21,6 @@ const (
 	minor = 0
 	patch = 0
 )
-
-type quickapi struct{}
-type Quickreq struct{
-	Repo 	 string `json:"repo"`
-	Url 	 string `json:"url"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
-func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Methods", "*")
-    w.Header().Set("Access-Control-Allow-Credentials", "true")
-    w.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Encoding, Authorization, Content-Length, Content-Type, X-CSRF-Token")
-	w.Header().Set("Content-Type", "application/json")
-    w.WriteHeader(http.StatusOK)
-	log.Println(w)
-
-	switch r.Method {
-	case http.MethodPost:
-		if err := r.ParseForm(); nil != err {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-            return
-        }
-
-        var q Quickreq
-
-        err := json.NewDecoder(r.Body).Decode(&q)
-        if nil != err {
-        	http.Error(w, err.Error(), http.StatusInternalServerError)
-            return
-        }
-
-        log.Println(q)
-        
-        c := client.NewClient(q.Url)
-        if err := c.SetAuth(q.Username, q.Password); nil != err {
-        	http.Error(w, err.Error(), http.StatusInternalServerError)
-            return
-        }
-
-        artifacts, err := c.GetArtifactList(q.Repo)
-		if nil != err {
-			log.Fatal(err)
-		}
-
-		sort.Stable(artifacts)
-
-		json.NewEncoder(w).Encode(artifacts)
-		break
-	default:
-		http.Error(w, "404 not found", http.StatusNotFound)
-		break
-	}
-}
 
 func main() {
 	app := &cli.App{
@@ -96,6 +43,18 @@ func main() {
 		    			Value:   5000,
 		    			Aliases: []string{"p"},
 		    			Usage:   "REST API port number",
+		    		},
+		    		&cli.BoolFlag{
+		    			Name:    "container",
+		    			Value:   true,
+		    			Aliases: []string{"c"},
+		    			Usage:   "Run in container mode",
+		    		},
+		    		&cli.BoolFlag{
+		    			Name:    "angular",
+		    			Value:   true,
+		    			Aliases: []string{"a", "ng", "ui"},
+		    			Usage:   "Enable Angular frontend",
 		    		},
 		    	},
 			  	Action:  func(c *cli.Context) error {
@@ -146,13 +105,77 @@ func main() {
 	}
 }
 
+type quickapi struct{}
+type Quickreq struct{
+	Repo 	 string `json:"repo"`
+	Url 	 string `json:"url"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Methods", "*")
+    w.Header().Set("Access-Control-Allow-Credentials", "true")
+    w.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Encoding, Authorization, Content-Length, Content-Type, X-CSRF-Token")
+	w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+
+	switch r.Method {
+	case http.MethodPost:
+		if err := r.ParseForm(); nil != err {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+
+        var q Quickreq
+
+        err := json.NewDecoder(r.Body).Decode(&q)
+        if nil != err {
+        	http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+        
+        c := client.NewClient(q.Url)
+        if err := c.SetAuth(q.Username, q.Password); nil != err {
+        	http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+
+        artifacts, err := c.GetArtifactList(q.Repo)
+		if nil != err {
+			log.Fatal(err)
+		}
+
+		sort.Stable(artifacts)
+
+		json.NewEncoder(w).Encode(artifacts)
+		break
+	default:
+		http.Error(w, "404 not found", http.StatusNotFound)
+		break
+	}
+}
+
 func serve(c *cli.Context) error {
 	http.Handle("/api/v1/artifactory", &quickapi{})
+	
+	if c.Bool("build-angular") {
+		runPrint("npm", "i")
+		if c.Bool("container") {
+			runPrint("ng", "build", "--configuration=docker")
+		} else {
+			runPrint("ng", "build")
+		}
+	}
+	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("./dist/site"))))
+
 	port := c.Int("port")
 	if port == 0 {
 		port = 5000
 	}
-	log.Printf("API server now listening on port %d (press Control^C to stop)", port)
+
+	log.Printf("API server now listening on port %d (press Cntl^C quit)", port)
     log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
     return nil
 }
@@ -174,13 +197,20 @@ func lookup(c *cli.Context) error {
 
 	sort.Stable(artifacts)
 
+	// largest download counts
 	first := 0
 	second := 0
+
+	biggest := 0 // longest name length
 
 	for i := 0; i < len(artifacts.Results); i++ {
 		if artifacts.Results[i].TotalDownloads() > first {
 			second = first
 			first = artifacts.Results[i].TotalDownloads()
+		}
+		length := len(artifacts.Results[i].Name)
+		if length > biggest {
+			biggest = length
 		}
 	}
 
@@ -194,8 +224,8 @@ func lookup(c *cli.Context) error {
 	for i := 0; i < len(artifacts.Results); i++ {
 		if artifacts.Results[i].TotalDownloads() == first {
 			pop1 = append(pop1, artifacts.Results[i])
+			continue
 		}
-		
 		if artifacts.Results[i].TotalDownloads() == second {
 			pop2 = append(pop1, artifacts.Results[i])
 		}
@@ -204,10 +234,41 @@ func lookup(c *cli.Context) error {
 	for i := 0; i < len(pop1); i++ { 
 		line := fmt.Sprintf("%d - %s", pop1[i].TotalDownloads(), pop1[i].Name)
 		if i < len(pop2) {
-			line = fmt.Sprintf("%-50s%d - %s", line, pop2[i].TotalDownloads(), pop2[i].Name)
+			line = fmt.Sprintf("%-*s%d - %s", biggest, line, pop2[i].TotalDownloads(), pop2[i].Name)
 		}
 		fmt.Println(line)
 	}
 
 	return nil
+}
+
+func clean() {
+	remove()
+}
+
+func remove(paths ...string) {
+	for _, path := range paths {
+		log.Println("rm -r", path)
+		os.RemoveAll(path)
+	}
+}
+
+func move(source, destination string) {
+	log.Println("mv", source, destination)
+
+	err := os.Rename(source, destination)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func runPrint(cmd string, args ...string) {
+	log.Println(cmd, strings.Join(args, " "))
+	ecmd := exec.Command(cmd, args...)
+	ecmd.Stdout = os.Stdout
+	ecmd.Stderr = os.Stderr
+	err := ecmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
 }

@@ -2,25 +2,13 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "art-web",
+      "name": "ui",
       "image": "munsy/art-ui",
       "essential": true,
       "memory": 128,
       "portMappings": [
         {
-          "hostPort": 80,
-          "containerPort": 80
-        }
-      ]
-    },
-    {
-      "name": "art-api",
-      "image": "munsy/art-api",
-      "essential": true,
-      "memory": 128,
-      "portMappings": [
-        {
-          "hostPort": 443,
+          "hostPort": 5000,
           "containerPort": 5000
         }
       ]
