@@ -26,7 +26,7 @@ jobs:
         - cp art.zip dist/art.zip
       deploy:
         - provider: script
-          script: bash build/dockerhub-push-api.sh
+          script: bash dockerhub.sh
           skip_cleanup: true
           on:
             branch: master

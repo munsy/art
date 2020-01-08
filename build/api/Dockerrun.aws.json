@@ -1,9 +1,0 @@
-{
-  "Ports": [
-    {
-      "ContainerPort": 5000,
-      "HostPort": 8080
-    }
-  ]
-}
- 
