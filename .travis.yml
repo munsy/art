@@ -39,16 +39,16 @@ jobs:
           skip_cleanup: true
           on:
             branch: master
-        - provider: elasticbeanstalk
-          secret_access_key: $AWS_SECRET
-          access_key_id: $AWS_KEY
-          region: "us-west-2"
-          bucket: "art-production"
-          app: "art"
-          env: "art-api"
-          skip_cleanup: true
-          on:
-            branch: master
+#        - provider: elasticbeanstalk
+#          secret_access_key: $AWS_SECRET
+#          access_key_id: $AWS_KEY
+#          region: "us-west-2"
+#          bucket: "art-production"
+#          app: "art"
+#          env: "art-api"
+#          skip_cleanup: true
+#          on:
+#            branch: master
     - stage: "frontend"
       language: node_js
       node_js: "10"
