@@ -60,12 +60,6 @@ jobs:
       script:
         - npm run-script build
       deploy:
-        - provider: script
-          before_install:
-          script: bash build/dockerhub-push-ui.sh
-          skip_cleanup: true
-          on:
-            branch: master
         - provider: pages
           skip_cleanup: true
           token: $GITHUB_TOKEN
