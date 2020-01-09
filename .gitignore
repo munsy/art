@@ -2,6 +2,7 @@ art.exe
 art 
 
 # compiled output
+/container
 /dist
 /tmp
 /out-tsc

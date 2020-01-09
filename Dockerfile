@@ -9,6 +9,6 @@ FROM node:alpine
 WORKDIR /app
 COPY --from=builder /app/ .
 RUN npm i
-COPY . .
+COPY container .
 EXPOSE 80 5000
 CMD ./art serve -p $PORT 

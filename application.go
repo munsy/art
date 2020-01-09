@@ -173,7 +173,7 @@ func serve(c *cli.Context) error {
 		}
 	}
 
-	if _, err := os.Stat("./dist/site"); os.IsNotExist(err) {
+	if _, err := os.Stat("./container"); os.IsNotExist(err) {
 		runPrint("ng", "build", "--configuration=docker")
 	}
 	
