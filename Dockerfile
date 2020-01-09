@@ -8,6 +8,7 @@ RUN go build -o art .
 FROM node:alpine
 WORKDIR /app
 COPY --from=builder /app/ .
+RUN npm i
 COPY . .
 EXPOSE 80 5000
 CMD ./art serve -p $PORT 
