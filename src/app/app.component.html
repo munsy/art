@@ -47,9 +47,11 @@
           </div>
         </div>
         <button type="submit" class="btn btn-outline-primary" *ngIf="!searching">Submit</button>
-        <div class="spinner-border text-primary" role="status" *ngIf="searching">
-          <button class="btn btn-outline-primary"><span class="sr-only"></span></button>
-        </div>
+        <button class="btn btn-outline-primary" *ngIf="searching">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </button>
       </form>
     </div>
     <div class="col"></div>

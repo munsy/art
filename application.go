@@ -160,10 +160,10 @@ func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func serve(c *cli.Context) error {
 	http.Handle("/api/v1/artifactory", &quickapi{})
 	
-	if c.Bool("build-angular") {
-		runPrint("npm", "i")
+	if c.Bool("angular") {
+		//runPrint("npm", "i")
 		if c.Bool("container") {
-			runPrint("ng", "build", "--configuration=docker")
+			runPrint("./node_modules/.bin/ng", "build", "--configuration=docker")
 		} else {
 			runPrint("ng", "build")
 		}
@@ -175,8 +175,10 @@ func serve(c *cli.Context) error {
 		port = 5000
 	}
 
-	log.Printf("API server now listening on port %d (press Cntl^C quit)", port)
-    log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
+	addr := "0.0.0.0"
+	binding := fmt.Sprintf("%s:%d", addr, port)
+	log.Printf("API server now listening on port %s (press Ctrl^C quit)", binding)
+    log.Fatal(http.ListenAndServe(binding, nil))
     return nil
 }
 

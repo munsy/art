@@ -6,10 +6,8 @@ WORKDIR /app
 RUN go build -o art .
 
 FROM node:alpine
-COPY --from=builder /app/ /app/
 WORKDIR /app
-COPY . .
-RUN npm install && npm run docker
+COPY --from=builder /app/ .
 COPY . .
 EXPOSE 5000
 CMD ["./art", "serve", "--angular", "--container"]
