@@ -8,7 +8,6 @@ RUN go build -o art .
 FROM node:alpine
 WORKDIR /app
 COPY --from=builder /app/ .
-RUN npm i
-COPY container .
+RUN npm i && $(pwd)/node_modules/.bin/ng build --configuration=docker
 EXPOSE 80 5000
 CMD ./art serve -p $PORT 
