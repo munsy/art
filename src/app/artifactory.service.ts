@@ -22,10 +22,6 @@ export class ArtifactoryService {
   constructor(private http: HttpClient) { }
 
   getList(request: ArtifactoryRequest): Observable<ArtifactList> {
-    var endpoint = `${this.url}/api/v1/artifactory`;
-    console.log(endpoint);
-    // httpOptions.headers = httpOptions.headers.set('Authorization', btoa(`${request.username}:${request.password}`));
-    // var query = `items.find({"repo":{"$eq":"${request.repo}"}}).include("stat")`;
     return this.http.post<ArtifactList>(`${this.url}/api/v1/artifactory`, request).pipe(timeout(5000));
   }
 }

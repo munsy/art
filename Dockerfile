@@ -9,5 +9,5 @@ FROM node:alpine
 WORKDIR /app
 COPY --from=builder /app/ .
 COPY . .
-EXPOSE 5000
+EXPOSE 80 5000
 CMD ["./art", "serve", "--angular", "--container"]

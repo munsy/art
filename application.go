@@ -40,19 +40,19 @@ func main() {
 				Flags: 	 []cli.Flag{
 		    		&cli.IntFlag{
 		    			Name:    "port",
-		    			Value:   5000,
+		    			Value:   80,
 		    			Aliases: []string{"p"},
 		    			Usage:   "REST API port number",
 		    		},
 		    		&cli.BoolFlag{
 		    			Name:    "container",
-		    			Value:   true,
+		    			Value:   false,
 		    			Aliases: []string{"c"},
 		    			Usage:   "Run in container mode",
 		    		},
 		    		&cli.BoolFlag{
 		    			Name:    "angular",
-		    			Value:   true,
+		    			Value:   false,
 		    			Aliases: []string{"a", "ng", "ui"},
 		    			Usage:   "Enable Angular frontend",
 		    		},
@@ -159,9 +159,9 @@ func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func serve(c *cli.Context) error {
 	http.Handle("/api/v1/artifactory", &quickapi{})
-	
+
 	if c.Bool("angular") {
-		//runPrint("npm", "i")
+		runPrint("npm", "i")
 		if c.Bool("container") {
 			runPrint("./node_modules/.bin/ng", "build", "--configuration=docker")
 		} else {
@@ -172,7 +172,7 @@ func serve(c *cli.Context) error {
 
 	port := c.Int("port")
 	if port == 0 {
-		port = 5000
+		port = 80
 	}
 
 	addr := "0.0.0.0"
