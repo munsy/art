@@ -22,6 +22,6 @@ export class ArtifactoryService {
   constructor(private http: HttpClient) { }
 
   getList(request: ArtifactoryRequest): Observable<ArtifactList> {
-    return this.http.post<ArtifactList>(`${this.url}/api/v1/artifactory`, request).pipe(timeout(5000));
+    return this.http.post<ArtifactList>(`${this.url}api/v1/artifactory`, request).pipe(timeout(5000));
   }
 }

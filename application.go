@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/urfave/cli/v2"
@@ -158,26 +159,31 @@ func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func serve(c *cli.Context) error {
-	http.Handle("/api/v1/artifactory", &quickapi{})
-
-	if c.Bool("angular") {
-		runPrint("npm", "i")
-		if c.Bool("container") {
-			runPrint("./node_modules/.bin/ng", "build", "--configuration=docker")
+	port := 0
+	port = c.Int("port")
+	if port == 0 {
+		if p := os.Getenv("PORT"); p != "" {
+			port64, err := strconv.ParseInt(p, 10, 0)
+			if nil != err {
+				return err
+			}
+			port = int(port64)
 		} else {
-			runPrint("ng", "build")
+			port = 80
 		}
 	}
-	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("./dist/site"))))
 
-	port := c.Int("port")
-	if port == 0 {
-		port = 80
+	if _, err := os.Stat("./dist/site"); os.IsNotExist(err) {
+		runPrint("ng", "build", "--configuration=docker")
 	}
+	
+	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("./dist/site"))))
+	http.Handle("/api/v1/artifactory", &quickapi{})
 
 	addr := "0.0.0.0"
+
 	binding := fmt.Sprintf("%s:%d", addr, port)
-	log.Printf("API server now listening on port %s (press Ctrl^C quit)", binding)
+	log.Printf("Art server now listening on port %s (press Ctrl^C quit)", binding)
     log.Fatal(http.ListenAndServe(binding, nil))
     return nil
 }

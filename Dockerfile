@@ -10,4 +10,4 @@ WORKDIR /app
 COPY --from=builder /app/ .
 COPY . .
 EXPOSE 80 5000
-CMD ./art serve -p $PORT --angular --container 
+CMD ./art serve -p $PORT 

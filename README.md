@@ -12,5 +12,5 @@ $ art help # for a list of commands
 ```
 
 ### Web demo
-Available at https://munsy.github.io/art/ for quick demonstration.
+Available at https://art-heroku.herokuapp.com/ for quick demonstration.
 You will need a valid Artifactory instance.
