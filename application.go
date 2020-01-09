@@ -232,10 +232,9 @@ func lookup(c *cli.Context) error {
 	for i := 0; i < len(artifacts.Results); i++ {
 		if artifacts.Results[i].TotalDownloads() == first {
 			pop1 = append(pop1, artifacts.Results[i])
-			continue
 		}
 		if artifacts.Results[i].TotalDownloads() == second {
-			pop2 = append(pop1, artifacts.Results[i])
+			pop2 = append(pop2, artifacts.Results[i])
 		}
 	}
 
