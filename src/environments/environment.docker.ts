@@ -1,7 +1,9 @@
+let loc = (): string => { 
+  var winloc = window.location.href;
+  return winloc.endsWith('/') ? winloc.slice(0, -1) : winloc;
+}
+
 export const environment = {
   production: true,
-  apiURL: (): string => { 
-  	var loc = window.location.href;
-  	return loc.endsWith('/') ? loc.slice(0, -1) : loc;
-  }
+  apiURL: loc()
 };
