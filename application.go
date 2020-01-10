@@ -177,7 +177,7 @@ func serve(c *cli.Context) error {
 		runPrint("ng", "build", "--configuration=docker")
 	}
 	
-	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("./dist/site"))))
+	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("./container"))))
 	http.Handle("/api/v1/artifactory", &quickapi{})
 
 	addr := "0.0.0.0"
