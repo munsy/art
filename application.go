@@ -21,6 +21,12 @@ const (
 	major = 1
 	minor = 0
 	patch = 0
+
+	notFoundTemplate = `<br><br>
+<center>
+  <h1>404</h1><br>
+  The requested resource at %s was not found.
+</center>`
 )
 
 func main() {
@@ -153,7 +159,7 @@ func (q *quickapi) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(artifacts)
 		break
 	default:
-		http.Error(w, "404 not found", http.StatusNotFound)
+		http.Error(w, fmt.Sprintf(notFoundTemplate, r.RequestURI), http.StatusNotFound)
 		break
 	}
 }
