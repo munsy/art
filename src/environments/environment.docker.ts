@@ -1,14 +1,7 @@
-
-/*
-export const process = {
-	env: {
-		port: string
-	}
-}
-*/
-
 export const environment = {
-  production: false,
-  apiURL: window.location.href
-  //apiURL: `http://localhost:${process.env.port}`
+  production: true,
+  apiURL: () => { 
+  	var loc = window.location.href;
+  	return loc.endsWith('/') ? loc.slice(0, -1) : loc;
+  }
 };
